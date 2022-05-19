@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class PickupTrigger : MonoBehaviour
 {
+    [SerializeField] float destroyDelay = 0.1f;
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.GetComponent<Driver>() == null)  
         {
             return;
         }
-        var playerSpriteRendererColor = col.gameObject.GetComponent<SpriteRenderer>().color;
+        
 
         if (gameObject.tag == "Package" && col.gameObject.GetComponent<Driver>().GetHasPackage() == false)
         {
             Debug.Log("Package acquired.");
-            playerSpriteRendererColor = Color.green;
+            col.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             col.gameObject.GetComponent<Driver>().SetHasPackage(true);
             Debug.Log(col.gameObject.GetComponent<Driver>().GetHasPackage());
-            Destroy(gameObject, 0.1f);
+            Destroy(gameObject, destroyDelay);
         }
         else if (gameObject.tag == "Customer" && col.gameObject.GetComponent<Driver>().GetHasPackage() == true)
         {
             Debug.Log("Package delivered.");
-            playerSpriteRendererColor = Color.white;
+            col.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             col.gameObject.GetComponent<Driver>().SetHasPackage(false);
             Debug.Log(col.gameObject.GetComponent<Driver>().GetHasPackage());
-            Destroy(gameObject, 0.1f);
+            Destroy(gameObject, destroyDelay);
         }
         else if (gameObject.tag == "Customer" && col.gameObject.GetComponent<Driver>().GetHasPackage() == false)
         {

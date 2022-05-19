@@ -19,6 +19,30 @@ public class Driver : MonoBehaviour
         hasPackage = value;
     }
 
+    public IEnumerator IncreaseSpeed(float speed)
+    {
+        var originalMoveSpeed = moveSpeed;
+        moveSpeed += speed;
+        yield return new WaitForSeconds(2.5f);
+        moveSpeed = originalMoveSpeed;
+    }
+
+    public IEnumerator IncreaseSpeed(float speed, float time)
+    {
+        var originalMoveSpeed = moveSpeed;
+        moveSpeed += speed;
+        yield return new WaitForSeconds(time);
+        moveSpeed = originalMoveSpeed;
+    }
+
+    public IEnumerator DecreaseSpeed(float speed, float time)
+    {
+        var originalMoveSpeed = moveSpeed;
+        moveSpeed -= speed;
+        yield return new WaitForSeconds(time);
+        moveSpeed = originalMoveSpeed;
+    }
+
     void Update()
     {
         Drive();
