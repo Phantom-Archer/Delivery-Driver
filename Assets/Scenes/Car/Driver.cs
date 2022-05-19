@@ -7,6 +7,18 @@ public class Driver : MonoBehaviour
     [SerializeField] float steerSpeed;
     [SerializeField] float moveSpeed;
 
+    bool hasPackage = false;
+
+    public bool GetHasPackage()
+    {
+        return hasPackage;
+    }
+
+    public void SetHasPackage(bool value)
+    {
+        hasPackage = value;
+    }
+
     void Update()
     {
         Drive();
