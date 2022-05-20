@@ -8,6 +8,7 @@ public class Driver : MonoBehaviour
     [SerializeField] float moveSpeed;
 
     bool hasPackage = false;
+    bool currentlyCrashed = false;
 
     public bool GetHasPackage()
     {
@@ -43,6 +44,19 @@ public class Driver : MonoBehaviour
         moveSpeed = originalMoveSpeed;
     }
 
+    public IEnumerator CrashAndDecreaseSpeed(float speed, float time)
+    {
+        if (!currentlyCrashed)
+        {
+            currentlyCrashed = true;
+            var originalMoveSpeed = moveSpeed;
+            moveSpeed -= speed;
+            yield return new WaitForSeconds(time);
+            moveSpeed = originalMoveSpeed;
+            currentlyCrashed = false;
+        }
+    }
+
     void Update()
     {
         Drive();
@@ -55,5 +69,10 @@ public class Driver : MonoBehaviour
         
         transform.Translate(0f, moveFactor, 0f);
         transform.Rotate(0f, 0f, -steerFactor);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        StartCoroutine(CrashAndDecreaseSpeed(10f, 1f));   
     }
 }
